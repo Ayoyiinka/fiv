@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="catalog_product_save_after">
+        <observer name="ProductSaveSuccess" instance="DR\Gallery\Observer\ProductSaveSuccess" />
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="send_order_email_to_owner" 
+            instance="DR\Gallery\Observer\ObserverSendOrderEmailToOwner" />
+    </event>
+	<!-- checkout_onepage_controller_success_action -->
+</config>

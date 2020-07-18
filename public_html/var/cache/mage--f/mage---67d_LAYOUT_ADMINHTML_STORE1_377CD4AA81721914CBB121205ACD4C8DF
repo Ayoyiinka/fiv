@@ -1,0 +1,208 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1528304571;s:6:"expire";i:9999999999;s:4:"tags";s:74:"67d_DEFAULT,67d_INDEXER_INDEXER_LIST,67d_LAYOUT_GENERAL_CACHE_TAG,67d_MAGE";}
+<body>
+   <referenceContainer name="notifications">
+      <block class="Magento\AdminNotification\Block\System\Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
+      <block class="Magento\AdminNotification\Block\System\Messages\UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
+      <block class="Magento\AdminNotification\Block\Window" name="notification_window" as="notification_window" acl="Magento_AdminNotification::show_toolbar" template="notification/window.phtml"/>
+   </referenceContainer>
+   <referenceContainer name="header">
+      <block class="Magento\AdminNotification\Block\ToolbarEntry" name="notification.messages" before="user" template="toolbar_entry.phtml"/>
+   </referenceContainer>
+</body>
+<head>
+   <title>Magento Admin</title>
+   <meta name="viewport" content="width=1024"/>
+   <link src="requirejs/require.js"/>
+   <css src="extjs/resources/css/ext-all.css"/>
+   <css src="extjs/resources/css/ytheme-magento.css"/>
+</head>
+<body>
+   <attribute name="id" value="html-body"/>
+   <block name="require.js" class="Magento\Backend\Block\Page\RequireJs" template="Magento_Backend::page/js/require_js.phtml"/>
+   <referenceContainer name="global.notices">
+      <block class="Magento\Backend\Block\Page\Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
+   </referenceContainer>
+   <referenceContainer name="header">
+      <block class="Magento\Backend\Block\Page\Header" name="logo" before="-">
+         <arguments>
+            <argument name="show_part" xsi:type="string">logo</argument>
+            <argument name="edition" translate="true" xsi:type="string">Community Edition</argument>
+            <argument name="logo_image_src" xsi:type="string">images/magento-icon.svg</argument>
+         </arguments>
+      </block>
+      <block class="Magento\Backend\Block\GlobalSearch" name="global.search" as="search" after="logo" acl="Magento_Backend::global_search"/>
+      <block class="Magento\Backend\Block\Page\Header" name="user" after="-">
+         <arguments>
+            <argument name="show_part" xsi:type="string">user</argument>
+         </arguments>
+      </block>
+   </referenceContainer>
+   <referenceContainer name="page.menu">
+      <block class="Magento\Backend\Block\Menu" name="menu" as="menu" template="Magento_Backend::menu.phtml"/>
+   </referenceContainer>
+   <referenceContainer name="page.breadcrumbs">
+      <block class="Magento\Backend\Block\Widget\Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+   </referenceContainer>
+   <referenceContainer name="page.formkey">
+      <block class="Magento\Backend\Block\Admin\Formkey" name="formkey" as="formkey" template="Magento_Backend::admin/formkey.phtml"/>
+   </referenceContainer>
+   <referenceContainer name="main.top">
+      <block class="Magento\Theme\Block\Html\Title" name="page.title" template="title.phtml"/>
+   </referenceContainer>
+   <referenceContainer name="page.messages">
+      <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages"/>
+   </referenceContainer>
+   <referenceContainer name="page.main.actions">
+      <block class="Magento\Framework\View\Element\Template" name="page.actions.toolbar" template="Magento_Backend::pageactions.phtml" after="-"/>
+   </referenceContainer>
+   <referenceContainer name="footer">
+      <container name="legal" htmlTag="div" htmlClass="footer-legal">
+         <container name="legal.copyright" htmlTag="p" htmlClass="copyright col-m-6">
+            <block class="Magento\Backend\Block\Page\Copyright" name="copyright" as="copyright"/>
+         </container>
+         <container name="legal.system" htmlTag="div" htmlClass="footer-legal-system col-m-6">
+            <block class="Magento\Backend\Block\Page\Footer" name="version" as="version"/>
+            <block class="Magento\Framework\View\Element\Template" name="report" as="report" template="Magento_Backend::page/report.phtml">
+               <arguments>
+                  <argument name="bugreport_url" xsi:type="string">https://github.com/magento/magento2/issues</argument>
+               </arguments>
+            </block>
+         </container>
+      </container>
+   </referenceContainer>
+   <referenceContainer name="after.body.start">
+      <block class="Magento\RequireJs\Block\Html\Head\Config" name="requirejs-config"/>
+      <block class="Magento\Translation\Block\Html\Head\Config" name="translate-config"/>
+      <block class="Magento\Translation\Block\Js" name="translate" template="Magento_Translation::translate.phtml"/>
+      <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Backend::page/js/components.phtml"/>
+      <block class="Magento\Framework\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Backend::page/js/calendar.phtml"/>
+   </referenceContainer>
+</body>
+<body>
+   <block class="Magento\Framework\Pricing\Render" name="product.price.render.default">
+      <arguments>
+         <argument name="price_render_handle" xsi:type="string">catalog_product_prices</argument>
+         <argument name="use_link_for_as_low_as" xsi:type="boolean">true</argument>
+      </arguments>
+   </block>
+</body>
+<body>
+   <referenceContainer name="after.body.start">
+      <block class="Magento\Ui\Block\Logger" name="logger" template="Magento_Ui::logger.phtml"/>
+   </referenceContainer>
+</body>
+<body>
+   <referenceContainer name="legal.system">
+      <block class="Magento\Framework\View\Element\Template" name="session.activity.link" template="Magento_Security::page/activity_link.phtml" before="report" ifconfig="admin/security/admin_account_sharing"/>
+   </referenceContainer>
+</body>
+<head>
+   <css src="jquery/jstree/themes/default/style.css"/>
+   <css src="css/styles-old.css"/>
+   <css src="css/styles.css"/>
+</head>
+<body>
+   <referenceContainer name="root">
+      <container name="menu.wrapper" before="-" htmlTag="div" htmlClass="menu-wrapper"/>
+   </referenceContainer>
+   <referenceContainer name="header" htmlClass="page-header row">
+      <container name="header.inner.left" before="-" htmlTag="div" htmlClass="page-header-hgroup col-l-8 col-m-6"/>
+      <container name="header.inner.right" after="header.inner.left" htmlTag="div" htmlClass="page-header-actions col-l-4 col-m-6"/>
+   </referenceContainer>
+   <move element="page.menu" destination="menu.wrapper"/>
+   <move element="logo" before="-" destination="menu.wrapper"/>
+   <move element="page.title" before="-" destination="header.inner.left"/>
+   <move element="user" before="-" destination="header.inner.right"/>
+   <move element="notification.messages" after="user" destination="header.inner.right"/>
+   <move element="global.search" after="notification.messages" destination="header.inner.right"/>
+</body>
+<body>
+   <referenceBlock name="adminhtml.indexer.grid.container">
+      <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.indexer.grid" as="grid">
+         <arguments>
+            <argument name="use_ajax" xsi:type="string">0</argument>
+            <argument name="pager_visibility" xsi:type="string">0</argument>
+            <argument name="id" xsi:type="string">gridIndexer</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Indexer\Model\Indexer\Collection</argument>
+         </arguments>
+         <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.indexer.grid.grid.massaction" as="grid.massaction">
+            <arguments>
+               <argument name="massaction_id_field" xsi:type="string">indexer_id</argument>
+               <argument name="form_field_name" xsi:type="string">indexer_ids</argument>
+               <argument name="use_select_all" xsi:type="string">1</argument>
+               <argument name="options" xsi:type="array">
+                  <updater>Magento\Indexer\Block\Backend\Grid\ItemsUpdater</updater>
+                  <item name="change_mode_onthefly" xsi:type="array">
+                     <item name="label" translate="true" xsi:type="string">Update on Save</item>
+                     <item name="url" xsi:type="string">*/indexer/massOnTheFly</item>
+                  </item>
+                  <item name="change_mode_changelog" xsi:type="array">
+                     <item name="label" translate="true" xsi:type="string">Update by Schedule</item>
+                     <item name="url" xsi:type="string">*/indexer/massChangelog</item>
+                  </item>
+               </argument>
+            </arguments>
+         </block>
+         <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.indexer.grid.columnSet">
+            <arguments>
+               <argument name="id" xsi:type="string">indexer_grid</argument>
+               <argument name="filter_visibility" xsi:type="string">0</argument>
+            </arguments>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_title">
+               <arguments>
+                  <argument name="header" translate="true" xsi:type="string">Indexer</argument>
+                  <argument name="width" xsi:type="string">180</argument>
+                  <argument name="align" xsi:type="string">left</argument>
+                  <argument name="index" xsi:type="string">title</argument>
+                  <argument name="sortable" xsi:type="string">0</argument>
+                  <argument name="column_css_class" xsi:type="string">indexer-title</argument>
+               </arguments>
+            </block>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_description">
+               <arguments>
+                  <argument name="header" translate="true" xsi:type="string">Description</argument>
+                  <argument name="index" xsi:type="string">description</argument>
+                  <argument name="sortable" xsi:type="string">0</argument>
+                  <argument name="column_css_class" xsi:type="string">indexer-description</argument>
+               </arguments>
+            </block>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_mode">
+               <arguments>
+                  <argument name="header" translate="true" xsi:type="string">Mode</argument>
+                  <argument name="getter" xsi:type="string">isScheduled</argument>
+                  <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Scheduled</argument>
+                  <argument name="sortable" xsi:type="string">0</argument>
+                  <argument name="column_css_class" xsi:type="string">indexer-mode</argument>
+               </arguments>
+            </block>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_status">
+               <arguments>
+                  <argument name="header" translate="true" xsi:type="string">Status</argument>
+                  <argument name="getter" xsi:type="string">getStatus</argument>
+                  <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Status</argument>
+                  <argument name="sortable" xsi:type="string">0</argument>
+                  <argument name="column_css_class" xsi:type="string">indexer-status</argument>
+               </arguments>
+            </block>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_updated">
+               <arguments>
+                  <argument name="header" translate="true" xsi:type="string">Updated</argument>
+                  <argument name="index" xsi:type="string">updated</argument>
+                  <argument name="type" xsi:type="string">datetime</argument>
+                  <argument name="getter" xsi:type="string">getLatestUpdated</argument>
+                  <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Updated</argument>
+                  <argument name="sortable" xsi:type="string">0</argument>
+                  <argument name="column_css_class" xsi:type="string">col-date</argument>
+                  <argument name="header_css_class" xsi:type="string">col-date</argument>
+               </arguments>
+            </block>
+         </block>
+      </block>
+   </referenceBlock>
+</body>
+<update handle="indexer_indexer_list_grid"/>
+<body>
+   <referenceContainer name="content">
+      <block class="Magento\Indexer\Block\Backend\Container" name="adminhtml.indexer.grid.container"/>
+   </referenceContainer>
+</body>

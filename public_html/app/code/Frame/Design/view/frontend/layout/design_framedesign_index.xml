@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <head>
+       <!-- for css file -->
+       <css src="Frame_Design::lib/bower_components/jquery-ui/themes/base/jquery-ui.min.css"/>
+       <css src="Frame_Design::lib/bower_components/spectrum/spectrum.css"/>
+       <css src="Frame_Design::lib/bower_components/animate.css/animate.min.css"/>     
+       <css src="Frame_Design::css/style.css"/>       
+       <script src="Frame_Design::js/tool/config.js"/> 
+       <script src="Frame_Design::js/tool/tool.js"/>
+       <script src="Frame_Design::js/tool/script.js"/> 
+</head>
+     <body>		
+        <referenceContainer name="content">			
+			<block class="Frame\Design\Block\FrameDesign\Index" name="framedesign_index" template="framedesign/index.phtml">
+			</block>
+        </referenceContainer>      
+    </body>
+</page>

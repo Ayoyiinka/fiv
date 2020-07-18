@@ -1,0 +1,97 @@
+<?php
+ini_set('memory_limit', '-1');
+error_reporting(E_ALL ^ E_NOTICE);
+include dirname(__FILE__) .'/app/Mage.php';
+Varien_Profiler::enable();
+Mage::app();
+ini_set('display_errors', 1);
+umask(0);
+ini_set("default_socket_timeout", 200);
+
+
+include 'xlsx/simplexlsx.class.php';
+
+$xlsx = new SimpleXLSX('xlsx/2017-01-13-Camo-Collection-ROUNDSLINGS-POLYESTER.xlsx');
+
+$i=0;
+foreach( $xlsx->rows() as $ros ){
+   
+  if($i!=0 && $ros[3] !=''){
+   
+      if($ros[2] == ''){
+          $simpleproduct = Mage::getModel('catalog/product');
+
+          $name = $ros[9].' '.$ros[8].' '.$ros[5].' '.$ros[13].'Ft '.$ros[7];
+          $simpleproduct->setTypeId('simple');
+          $simpleproduct->setName($name);
+          $simpleproduct->setDescription($name);
+          $simpleproduct->setShortDescription($name);
+          $simpleproduct->setSku($ros[3]);
+          $simpleproduct->setWeight($ros[17]);
+          $simpleproduct->setStatus(1); // enabled
+          $simpleproduct->setVisibility(1); // catalog, search
+          $simpleproduct->setData('item_weight', $ros[17]);
+          $simpleproduct->setData('weight', $ros[17]);
+          $attr = $simpleproduct->getResource()->getAttribute('length');
+          $length_id = $attr->getSource()->getOptionId($ros[13].' ft');
+          $simpleproduct->setData('length', $length_id);
+
+          $simpleproduct->setData('durabull_part_no',$ros[1]);
+          $simpleproduct->setPrice($ros[18]);       
+          $simpleproduct->setTaxClassId(2); // taxable goods
+          
+          $simpleproduct->setAttributeSetId(22); // need to look this up
+
+          // assign product to the default website
+          
+          $simpleproduct->setWebsiteIds(array(1)); 
+          
+          $simpleproduct->setData('material_type_1', 144);
+          $simpleproduct->setData('country_of_origin', 495);
+          $simpleproduct->setData('manufacturer', 560);
+         
+          $attr3 = $simpleproduct->getResource()->getAttribute('vertical_working_load_limit');
+          $vertical_id = $attr3->getSource()->getOptionId(number_format($ros[14],0,'.',','));
+          $simpleproduct->setData('vertical_working_load_limit', $vertical_id);
+
+          $attr4 = $simpleproduct->getResource()->getAttribute('choker_working_load_limit');
+          $choker_id = $attr4->getSource()->getOptionId(number_format($ros[15],0,'.',','));
+          $simpleproduct->setData('choker_working_load_limit', $choker_id);
+
+          $attr5 = $simpleproduct->getResource()->getAttribute('basket_working_load_limit');
+          $basket_id = $attr5->getSource()->getOptionId(number_format($ros[16],0,'.',','));
+          $simpleproduct->setData('basket_working_load_limit', $basket_id);
+
+          $simpleproduct->save();
+
+
+
+          //*************
+          $parentsku= substr($ros[3], 0,8).substr($ros[3], 11,1);
+          echo $parentsku.'=='.$simpleproduct->getId().'<br>';
+          $configurableProduct = Mage::getModel('catalog/product')->loadByAttribute('sku',$parentsku);
+          $simpleId = $simpleproduct->getId();
+          $ids = $configurableProduct->getTypeInstance()->getUsedProductIds();
+          $newids = array();
+          foreach ( $ids as $id ) {
+              $newids[$id] = 1;
+          }
+          $newids[$simpleId] = 1;
+
+          Mage::getResourceModel('catalog/product_type_configurable')->saveProducts($configurableProduct, array_keys($newids));
+      }
+           
+ }
+ if($ros[3] ==''){
+  die('All Sku Done');
+ }
+
+  $i++;
+
+}
+
+
+    echo 'Done';
+
+    
+?>

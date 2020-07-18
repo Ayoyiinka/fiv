@@ -1,0 +1,1 @@
+/var/www/html/celebrityframing.com/public_html/app/design/frontend/default/celebrity/web/js/theme.js

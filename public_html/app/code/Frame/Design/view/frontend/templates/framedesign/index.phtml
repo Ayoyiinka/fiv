@@ -1,0 +1,778 @@
+<?php
+
+/**
+
+ * Copyright © 2015 framecommerce. All rights reserved.
+
+ */
+
+?>
+
+<?php
+
+/**
+
+ * {{controller}} {{action}} template
+
+ *
+
+ * @var $block \Frame\Design\Block\FrameDesign\Index
+
+ */
+
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+
+$currentStore = $storeManager->getStore();
+
+
+
+ ?>
+
+ <div class="container demo-wrapper">    
+
+      <div class="row demo-columns">
+
+        <div class="canvas-loader"></div>
+
+        <div class="hidden" id="upload-img">
+
+        <input type="hidden" id="framewidth" />
+
+        <input type="hidden" id="frameId" />
+
+          <div id="main_wrapper">
+
+          <div class="col-sm-12 col-md-12 col-lg-12">
+
+          		<div id="exTab3">	
+
+					<ul class="nav nav-pills">
+
+					  <li>
+
+						<a  href="#step1" data-toggle="tab" class="tabcls dimentation-icon" data-id="1">Dimension</a>
+
+					  </li>
+						<li><a href="#step2" data-toggle="tab" class="tabcls image-icon not-active" data-id="2">Image</a>
+
+					  </li>
+
+					  <li><a href="#step3" data-toggle="tab" class="tabcls frame-icon not-active" data-id="3">Select Frame</a>
+
+					  </li>
+
+					  <li><a href="#step4" data-toggle="tab" class="tabcls matt-icon not-active" data-id="4">Top Matt</a>
+
+					  </li>
+
+					   <li><a href="#step5" data-toggle="tab" class="tabcls matt-icon not-active" data-id="5">Bottom Matt</a>
+
+					  </li>
+
+					  
+
+					  <li><a href="#step6" data-toggle="tab" class="tabcls embilish-icon not-active" data-id="6">Embellishment</a>
+
+					  </li>
+
+					  <li><a href="#step7" data-toggle="tab" class="tabcls plate-icon not-active" data-id="7">Select Plate</a>
+
+					  </li>
+
+					  <li><a href="#step8" data-toggle="tab" class="tabcls not-active" data-id="8">Add Text</a>
+
+					  <li><a href="#step9" data-toggle="tab" class="tabcls not-active" data-id="9">Preview</a>
+
+					  </li>
+
+					</ul>
+
+					<div class="tab-content clearfix first-tab">
+
+					  <div class="tab-pane active" id="step1">
+
+						<div class="panel-browse">
+
+						  <div class="browse_inside_txt">
+
+							<div class="row">
+
+								<!--<div class="col-md-6">
+
+									<h3>Select Dimension</h3>
+
+								<div class="dropdown">                    
+
+								  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">-- Select --
+
+								  <span class="caret"></span></button>
+
+								  <ul class="dropdown-menu">
+
+								  <li><a href="#" data-id="1">Horizonal (18 X 15)</a></li>
+
+								  <li><a href="#" data-id="2">Vertical (20 X 13)</a></li>
+
+								  </ul>
+
+								</div> 
+
+							  </div>-->
+
+							  <div class="col-md-6 col-md-offset-3">
+
+								<div class="img-place-box">
+
+								  <div class="frame-selection"><img src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'/frame/vertical-img.png';?>" alt='' />
+
+										<span class="selected-txt"></span>
+
+										<div class="selected-radio-btn"><input type="radio" name="dimention" data-name="Horizonal (18 X 15)" value="1" /> Select (Horizonal)</div>
+
+								  </div>
+
+								  <div class="frame-selection"><img src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'/frame/horizontal-img.png';?>" alt='' />
+
+										<span class="selected-txt"></span>
+
+										<div class="selected-radio-btn"><input type="radio" name="dimention" data-name="Vertical (20 X 13)" value="2" /> Select (Vertical)</div>
+
+								  </div>
+
+								</div>
+
+							  </div>
+
+							</div>	
+
+							<div class="btn-btm-row">
+
+							  <button id="btn-next-tab" class="btn-next btn-next-tab" data-id="2">Next</button>			  	
+
+							</div>
+
+						  </div>
+
+						</div>                
+
+					  </div>
+
+						<div class="tab-pane" id="step2">
+
+						  <div class="col-sm-8 inside-content">
+
+							<div id="upload-zone" class="uploader">
+
+							  <div class="panel-browse">
+
+								<div class="browse_inside_txt">
+
+								  <div class="icon-camera"></div>
+
+								  <span class="drop_img_txt">Drag &amp; Drop the Images Here or <font>browse images</font></span>
+
+								  <div class="panel-subtext inside-info-txt">
+
+									<span>.png .jpg preferred</span>
+
+									Or you can select from our vault in coming step
+
+								  </div>
+
+								</div>
+
+							  </div>
+
+							  <div class="browser">              
+
+
+
+								  <input type="file" name="files[]" multiple title='browse images'>             
+
+							  </div>
+
+
+
+							</div>
+
+							<div class="demo-panel-files" id='image-files'>
+
+							  <span class="demo-note">No Files have been selected/dropped yet...</span>
+
+							</div>
+
+						  </div>
+
+
+
+						  <div class="btn-btm-row">
+
+							  <button id="btn-next-tab2" class="btn-next btn-next-tab" data-id="3">Next</button>			  	
+
+							</div>
+
+					   </div>
+
+
+
+					  <div class="tab-pane" id="step3">
+
+					  	<div class="col-sm-8 inside-content">
+
+						<div class="row" id="framediv">
+
+							<ul class="frameslist">
+
+							  <?php  $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+
+							  $imagewidth=84;
+
+							  $imageheight=83;
+
+							  $imageHelper  = $objectManager->get('\Magento\Catalog\Helper\Image');
+
+
+
+								foreach ($block->getFramesProducts() as $product) : ?>
+
+								<li <?php if($product->getId() == 2) echo 'class="active"'; ?>>                                
+
+									  <?php 
+
+									  $imageUrl = $imageHelper->init($product, 'product_page_image_small')->setImageFile($product->getFile())->resize($imagewidth, $imageheight)->getUrl();
+
+		?>
+
+									  <a href="javascript:void(0)" class="framecls">
+
+									  <img src="<?php echo $imageUrl;
+
+		?>"  data-id="<?php echo $product->getId();?>" data-width="<?php echo $product->getData('frame_width')?>" width="84" height="83" /></a>
+
+								  </li>
+
+								<?php endforeach; ?>
+
+
+
+
+
+							  </ul>
+
+						  </div>
+
+						</div>
+
+
+
+						<div class="btn-btm-row">
+
+							  <button id="btn-next-tab" class="btn-next btn-next-tab" data-id="4">Next</button>			  	
+
+							</div> 
+
+					  </div>
+
+					  <div class="tab-pane" id="step4">
+
+					  	   <div class="col-sm-8 inside-content">
+
+						<div class="row" id="mattdiv">
+
+						<div class="choose-product-list" id="MattListBody"></div>  
+
+
+
+
+
+
+
+						  </div> 
+
+						   </div>  
+
+
+
+						   <div class="btn-btm-row">
+
+							  <button id="btn-next-tab" class="btn-next btn-next-tab" data-id="5">Next</button>			  	
+
+							</div>    
+
+					  </div>
+
+					  <div class="tab-pane" id="step5">
+
+					   <div class="col-sm-8 inside-content">
+
+							<div class="row" id="smattdiv">
+
+							  <div class="choose-product-list" id="MattSecondListBody"></div>
+
+							</div>
+
+						</div>
+
+
+
+
+
+						  <div class="btn-btm-row">
+
+							  <button id="btn-next-tab" class="btn-next btn-next-tab" data-id="6">Next</button>			  	
+
+							</div>
+
+					  </div>
+
+					  
+
+					  <div class="tab-pane" id="step6">
+
+					  <div class="col-sm-8 inside-content">
+
+						<div id="embell" class="">
+
+							<div class="cp-row">
+
+								<div class="pop-search">
+
+									<input type="search" placeholder="Press enter to continue..." id="searchText"/>
+
+									<button type="button" id="searchTextButton"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+								</div>
+
+							</div>
+
+							<div class="choose-product-list" id="embellishListBody"></div>                  
+
+						</div>
+
+						</div>
+
+
+
+						  <div class="btn-btm-row">
+
+							  <button id="btn-next-tab2" class="btn-next btn-next-tab" data-id="7">Next</button>			  	
+
+							</div>
+
+					  </div>             
+
+					  <div class="tab-pane" id="step7">
+
+						<div class="col-sm-8 inside-content">
+
+						  <ul class="platelist">
+
+							<li class="active"> <img class='mattimg' width="80" height="32" src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/small/Gold_Plate_02.png';?>" data-src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/Gold_Plate_02.png';?>" alt='' /><h2>Satin Gold</h2></li>
+
+							<li><img class='mattimg' width="80" height="32" src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/small/SatinSilverPlate.png';?>" data-src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/SatinSilverPlate.png';?>" alt='' /><h2>Satin Silver</h2></li>
+
+							<li><img class='mattimg' width="80" height="32" src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/small/WhitePlate.png';?>" data-src="<?php echo $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).'frame/plate/WhitePlate.png';?>" alt='' /><h2>White</h2></li>
+
+						  </ul>
+
+						</div>
+
+
+
+						<div class="btn-btm-row">
+
+							  <button id="btn-next-tab2" class="btn-next btn-next-tab" data-id="8">Next</button>			  	
+
+							</div>
+
+					  </div>
+
+						<div class="tab-pane" id="step8">
+
+						  <div class="col-sm-8 inside-content">
+
+						  <div class="textpanel edit-text">
+
+							  <div class="cp-row" id="textaddcls">
+
+								  <label>Enter Text Below</label>
+
+								  <div class="field-box">
+
+									<textarea placeholder="Enter Your Text" id="text" class="cp-text" onpaste="return false;"></textarea>
+
+								  </div>
+
+							  </div>
+
+							  <!--<div class="cp-row">
+
+							  <label>Color</label><input type="text" name="textColor" id="textColor">
+
+							  </div>-->
+
+							  <div class="cp-row">                       
+
+								  <label>Font Family</label>
+
+								  <div class="field-box">
+
+								<div id="fontFamilySelected" class="custom-dropdown-select" data-value="" data-file_name=""></div>
+
+								<div id="fontFamily" class="font-family-list-wrap hidden">
+
+								  <ul class="font-family-list" name="font-family"></ul>
+
+								</div>
+
+							  </div>
+
+							  </div>
+
+							 <div class="cp-row">                       
+
+								 <label>Font Size</label>
+
+								 <div class="field-box">
+
+									<input type="number" id="fontSize" /> <span>px</span>
+
+											</div>
+
+							  </div>
+
+							  <!-- <div class="cp-row">                       
+
+								 <label>&nbsp;</label>
+
+								 <div class="field-box">
+
+									<input type="button" class="btn btn-primary" id="addText" value="Add Text" />
+
+											</div>
+
+							  </div> -->
+
+							<span class="notify-txt">Please write text in the text area above and font size will adjust automatically to fit in plate. To Select a different font, please select on Font Family dorp-down.</span>
+
+					  </div>
+
+						</div>
+
+
+
+						<div class="btn-btm-row">
+
+							  <button id="btn-next-tab2" class="btn-next btn-next-tab" data-id="9">Next</button>			  	
+
+							</div>
+
+					  </div>
+
+					  <div class="tab-pane" id="step9" style="text-align:center;">
+
+						  <div class="btn-set-wrap">
+
+							<a href="javascript:void(0)" id="saveCanvas" data-toggle="tooltip" data-placement="top" title="Save & proceed to checkout"><i class="fa fa-save" aria-hidden="true"></i> Save</a>
+
+							<a href="javascript:void(0)" id="resetCanvas" data-toggle="tooltip" data-placement="top" title="Reset image."><i class="fa fa-refresh" aria-hidden="true"></i>Reset</a>
+
+						  </div>
+
+						  <div class="previewcanvas"></div>
+
+
+
+						</div>
+
+					</div>
+
+          </div>
+
+            </div>
+
+          </div>  
+
+
+
+            <div class="flatpanel hidden">
+
+              <div class="sidebar span4 hidden-phone">
+
+                  Your Selections <a href="javascript:void(0)" id="close">X</a>
+
+              </div>
+
+              <div class="main">
+
+                  <div class="container-fluid">
+
+                      <div class="row-fluid">
+
+                          <div class="span2"><font>Dimension:</font> <span id="dimentionbar">N/A</span></div>
+
+                          <div class="span3"><font>Frame:</font> <span id="framebar">N/A</span></div>
+
+                          <div class="span6"><font>Top Matt:</font> <span id="topmattbar">N/A</span></div>
+
+                          <div class="span6"><font>Bottom Matt:</font> <span id="bottommattbar">N/A</span></div>
+
+                          <div class="span6"><font>Image:</font> <span id="imagebar">N/A</span></div>
+
+                          <div class="span6"><font>Embellishment:</font> <span id="embilshbar">N/A</span></div>
+
+                          <div class="span6"><font>Plate:</font> <span id="platebar">N/A</span></div>
+
+                          <div class="span6"><font>Text: </font><span id="textbar">N/A</span></div>
+
+                      </div>
+
+                    
+
+                  </div>
+
+              </div>
+
+            </div> 
+
+            <div class="col-sm-4 col-md-4 col-lg-4" id="prevcanv">
+
+			  <div class="preview-txt">Preview</div>
+
+			  <canvas id="mainCanvas"></canvas>
+
+		    </div>
+
+          </div>
+
+          
+
+
+
+        </div>
+
+
+
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" id="main_wrapper">
+
+                <div class="save-wrapper hidden" id="load_wrapper">
+
+                    <!-- Main Section Start -->
+
+                    <div class="main-section">
+
+                        <div class="row">
+
+                            <div class="save-canvas-loader"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+    </div>
+
+    
+<div id="dialog-save" title="Confirm Save & Proceed to Checkout" style="display:none"> 
+    <p>
+        Are you done with the Frame Designing? Click <b>Yes</b> to save and proceed to cart or click <b>No</b> to continue editing.</p>
+</div>
+
+<div id="dialog-leavePage" title="Confirmation" style="display:none"> 
+    <p>Are you sure you want to leave this page? If you leave this page now, your current frame design will be discarded. Click <b>Stay on page</b> to continue editing, or <b>Leave Page</b> to discard the changes.</p>
+</div>
+<div id="dialog-reset" title="Reset" style="display:none"> 
+    <p>Are you sure you want to reset the frame design?</p>
+</div>
+ <script>
+
+			var imgList=[];
+
+      setTimeout(function(){
+
+        require([
+
+            'jquery',"jQuerymig","dmgprev","dmuploader","bootstrap-min"
+
+        ], function ($) {      
+
+          $(document).ready(function() {          
+
+            $('#upload-img').removeClass('hidden');
+            $('.canvas-loader').addClass('hidden');
+						$('.copyright').removeClass('footerFixed');
+            $('#upload-zone').dmUploader({
+
+                url: '<?php echo $currentStore->getBaseUrl()?>upload-image.php',
+
+                dataType: 'json',
+
+                maxFiles:1,
+
+                allowedTypes: 'image/*',               
+
+                onBeforeUpload: function(id){
+
+                  $.danidemo.updateFileStatus(id, 'default', 'Uploading...');
+
+                },
+
+                onNewFile: function(id, file){
+
+                  $.danidemo.addFile('#image-files', id, file);
+
+
+
+                  /*** Begins Image preview loader ***/
+
+                  if (typeof FileReader !== "undefined"){
+
+                    
+
+                    var reader = new FileReader();
+
+
+
+                    // Last image added
+
+                    var img = $('#image-files').find('.demo-image-preview').eq(0);
+
+
+
+                    reader.onload = function (e) {
+
+                      img.attr('src', e.target.result);
+
+                    }
+
+
+
+                    reader.readAsDataURL(file);
+
+
+
+                  } else {
+
+                    // Hide/Remove all Images if FileReader isn't supported
+
+                    //$('#demo-files').find('.demo-image-preview').remove();
+
+                  }
+
+                  /*** Ends Image preview loader ***/
+
+
+
+                },
+
+                onUploadProgress: function(id, percent){
+
+                  var percentStr = percent + '%';
+
+
+
+                  $.danidemo.updateFileProgress(id, percentStr);
+
+                },
+
+                onUploadSuccess: function(id, data){  
+
+                  imgList.push(data.file);
+
+                  $.danidemo.updateFileStatus(id, 'success', 'Upload Complete');
+
+                  $.danidemo.updateFileProgress(id, '100%');
+
+                  //$.danidemo.setSucessImageUpload(imgList.length);      
+
+                  $('#imagebar').html("<img id='uploadImgPath' src="+BASE_URL+"pub/media/gallery/byUser/"+data.file+" width='100' />"); 
+
+                  $("#imagebar").parent('div').addClass('selectClass');
+
+                  $( '#image-files' ).trigger( 'click' );
+
+                  $('.progress').hide();
+
+                },
+
+                onUploadError: function(id, message){
+
+                  $.danidemo.updateFileStatus(id, 'error', message);
+
+                },
+
+                onFileTypeError: function(file){
+
+                  $.danidemo.setMessageImageUpload('error', 'File \'' + file.name + '\' cannot be added: must be an image');
+
+                
+
+                },
+
+                onFileSizeError: function(file){
+
+                  $.danidemo.setMessageImageUpload('error', 'File \'' + file.name + '\' cannot be added: size excess limit');           
+
+                },
+
+                onFallbackMode: function(message){
+
+                  $.danidemo.setMessageImageUpload('info', 'Browser not supported(do something else here!): ' + message);
+
+                }
+
+                
+
+            });
+
+        
+
+            });
+			$("#dialog-save").dialog({
+	            autoOpen: false,
+	            model: true,
+	            width: 350,
+	            resizable: false,
+	            height: 180
+	        });
+	        $("#dialog-leavePage").dialog({
+	            autoOpen: false,
+	            model: true,
+	            width: 350,
+	            resizable: false,
+	            height: 230
+	        });
+	        $("#dialog-reset").dialog({
+	            autoOpen: false,
+	            model: true,
+	            width: 350,
+	            resizable: false,
+	            height: 200
+	        });
+        });
+
+    }, 4000);
+
+   
+
+</script>
+

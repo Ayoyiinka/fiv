@@ -1,0 +1,237 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/**
+ * @var \Magento\Sales\Block\Adminhtml\Order\View\Items $block
+ */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+$connection = $resource->getConnection();
+$tableName = $resource->getTableName('frameeditor'); //gives table name with prefix
+
+$_order = $block->getOrder() ?>
+<style type="text/css">
+.printheader{
+    display: none;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #section-to-print, #section-to-print * {
+    visibility: visible;
+  }
+  #section-to-print {
+    position: absolute;
+    left: 0;
+    top: 40px;
+    bottom: 0;
+  }
+  .printheader{
+    text-align:center;
+    /*margin-top: 60px;*/
+    display: block;
+}
+}
+</style>
+
+
+<a class="no-print" href="javascript:window.print();">Print</a>
+<div class="admin__table-wrapper" id="section-to-print">
+    <h2 class="printheader">Order Details</h2>
+    <table class="data-table admin__table-primary edit-order-table">
+        <thead>
+            <tr class="headings">
+                <?php $i = 0;
+                $columns = $block->getColumns();
+                $lastItemNumber = count($columns) ?>
+                <?php foreach ($columns as $columnName => $columnTitle):?>
+                    <?php $i++; ?>
+                    <th class="col-<?php /* @noEscape */ echo $columnName ?><?php /* @noEscape */ echo ($i === $lastItemNumber ? ' last' : '')?>"><span><?php /* @noEscape */ echo $columnTitle ?></span></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <?php $_items = $block->getItemsCollection();?>
+        <?php $i = 0; foreach ($_items as $_item):?>
+            <?php 
+
+            $sql = "Select * FROM " . $tableName. " Where frame='".$_item->getProductId()."' and orderId='".$_order->getId()."'";
+            $result = $connection->fetchAll($sql);
+
+            if ($_item->getParentItem()) {
+                continue;
+            } else {
+                $i++;
+            }?>
+            <tbody class="<?php /* @noEscape */ echo $i%2 ? 'even' : 'odd' ?>">
+                <?php echo $block->getItemHtml($_item) ?>
+                <?php echo $block->getItemExtraInfoHtml($_item) ?>
+                <?php
+
+
+                 if(count($result)){
+
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $product = $objectManager->get('Magento\Catalog\Model\Product')->load($result[0]['frameId']);
+
+                    ?>
+                    <tr>
+                    <td colspan="10">
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Frame: (<?php echo $product->getSku();?>)</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                            
+                                            
+                                              //echo $product->getThumbnail();
+                                              $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+                                                $imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+                                                echo "<img src='".$imageUrl."' width='10%' />";
+                                            ?>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Dimension:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                              echo  $result[0]['dimention'] == 1? "Horizontal":"Vertical";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Upload Image:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo "<img src='".$result[0]['Image']."' width='10%' />";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <?php 
+                                            $e =explode("/",$result[0]['top_matt']);
+                                            $sql2 = "Select * FROM cf_matt Where Image='".end($e)."'";
+                                            $tmat = $connection->fetchAll($sql2);
+
+                                            ?>
+                                            <b>Top Matt: (<?php echo $tmat[0]['Name'] ?>)</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo "<img src='".$result[0]['top_matt']."' width='10%' />";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <?php 
+                                            $e =explode("/",$result[0]['bot_matt']);
+                                            $sql2 = "Select * FROM cf_matt Where Image='".end($e)."'";
+                                            $bmat = $connection->fetchAll($sql2);
+
+                                            ?>
+                                            <b>Bottom Matt: (<?php echo $bmat[0]['Name'] ?>)</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo "<img src='".$result[0]['bot_matt']."' width='10%' />";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <?php 
+                                            
+                                            $e =explode("/",$result[0]['embellishId']);
+                                            $name=$e[count($e)-3].'/'.$e[count($e)-2].'/'.$e[count($e)-1];
+                                            $sql3 = "Select * FROM cf_dr_gallery_image Where path='".$name."'";
+                                            $em = $connection->fetchAll($sql3);
+
+                                            ?>
+                                            <b>Embellishment: (<?php echo $em[0]['name'] ?>)</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo "<img src='".$result[0]['embellishId']."' width='10%' />";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Plate:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo "<img src='".$result[0]['plate']."' width='10%' />";
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Text:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo $result[0]['text']!=''?$result[0]['text']:'NA';
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Font Size:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo $result[0]['fontsize']!=''?$result[0]['fontsize']:'NA';
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <b>Font Family:</b>
+                                        </td>
+                                        <td colspan="1">
+                                            <?php
+                                                echo $result[0]['fontfamily'];
+                                            ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </td>
+                                <td style="width:30%">
+                                   <?php
+                                    $product2 = $objectManager->get('Magento\Catalog\Model\Product')->load($result[0]['frame']);
+                                     $imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product2->getThumbnail();
+                                                echo "<img src='".$imageUrl."' width='100%' />";
+                                   ?>
+
+                                </td>
+
+                            </tr>
+                        </table>
+                    </td>
+
+                    </tr>
+                
+                <?php }?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>
